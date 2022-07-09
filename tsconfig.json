@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    /* Language and Environment */
+    "target": "ES6",
+
+    /* Modules */
+    "module": "commonjs",
+    "rootDir": "./src",
+
+    /* Emit */
+    "outDir": "./dist",
+    "removeComments": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+
+    /* Type Checking */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+
+
+    /* Completeness */
+    "skipLibCheck": true
+  }
+}
