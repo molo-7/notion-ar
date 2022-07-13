@@ -11,6 +11,7 @@
     /* Modules */
     "module": "ESNext",
     "rootDir": "./src",
+    "types": ["chrome"],
 
     /* Emit */
     "outDir": "./dist",
