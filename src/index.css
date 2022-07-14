@@ -1,5 +1,6 @@
 .notion-to_do-block [placeholder="To-do"],
 .notion-bulleted_list-block [placeholder="List"],
-.notion-numbered_list-block [placeholder="List"] {
+.notion-numbered_list-block [placeholder="List"],
+.notion-toggle-block [placeholder="Toggle"] {
   text-align: start !important;
 }

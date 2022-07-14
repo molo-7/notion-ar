@@ -13,8 +13,9 @@ const bulletedListBlock = ".notion-bulleted_list-block";
 const numberedListBlock = ".notion-numbered_list-block";
 const headerBlocks =
   ".notion-header-block, .notion-sub_header-block, .notion-sub_sub_header-block";
+const toggleListBlock = ".notion-toggle-block";
 
-const autoDirElementsSelectors = `${topBarNavigation}, ${pageTitle}, ${textBlock}, ${todoBlock}, ${bulletedListBlock}, ${numberedListBlock}, ${headerBlocks}`;
+const autoDirElementsSelectors = `${topBarNavigation}, ${pageTitle}, ${textBlock}, ${todoBlock}, ${bulletedListBlock}, ${numberedListBlock}, ${headerBlocks}, $${toggleListBlock}`;
 
 /* Activate App */
 let { pathname } = window.location;
