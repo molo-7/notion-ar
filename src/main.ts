@@ -11,8 +11,10 @@ const textBlock = ".notion-text-block";
 const todoBlock = ".notion-to_do-block";
 const bulletedListBlock = ".notion-bulleted_list-block";
 const numberedListBlock = ".notion-numbered_list-block";
+const headerBlocks =
+  ".notion-header-block, .notion-sub_header-block, .notion-sub_sub_header-block";
 
-const autoDirElementsSelectors = `${topBarNavigation}, ${pageTitle}, ${textBlock}, ${todoBlock}, ${bulletedListBlock}, ${numberedListBlock}`;
+const autoDirElementsSelectors = `${topBarNavigation}, ${pageTitle}, ${textBlock}, ${todoBlock}, ${bulletedListBlock}, ${numberedListBlock}, ${headerBlocks}`;
 
 /* Activate App */
 let { pathname } = window.location;
@@ -84,7 +86,6 @@ function main() {
             record.target.parentElement?.closest(numberedListBlock))
         );
 
-        console.log(block);
         if (
           record.target.textContent?.trim() &&
           !startsWithAR(record.target.textContent) &&
