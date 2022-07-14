@@ -15,7 +15,7 @@ const headerBlocks =
   ".notion-header-block, .notion-sub_header-block, .notion-sub_sub_header-block";
 const toggleListBlock = ".notion-toggle-block";
 
-const autoDirElementsSelectors = `${topBarNavigation}, ${pageTitle}, ${textBlock}, ${todoBlock}, ${bulletedListBlock}, ${numberedListBlock}, ${headerBlocks}, $${toggleListBlock}`;
+const autoDirElementsSelectors = `${topBarNavigation}, ${pageTitle}, ${textBlock}, ${todoBlock}, ${bulletedListBlock}, ${numberedListBlock}, ${headerBlocks}, ${toggleListBlock}`;
 
 /* Activate App */
 let { pathname } = window.location;
@@ -62,7 +62,7 @@ function main() {
           }
 
           // rtl list/todo suggestion
-          let previousSibling = <HTMLElement>record.previousSibling;
+          let previousSibling = <HTMLElement>record.previousSibling; // todo | bulleted list | numbered list
           if (
             previousSibling &&
             ((block.matches(todoBlock) && previousSibling.matches(todoBlock)) ||
