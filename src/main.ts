@@ -1,4 +1,3 @@
-/* Selectors */
 // page loader
 const loadingSpinner = ".loading-spinner";
 
@@ -10,11 +9,8 @@ const pageTitle = "[placeholder='Untitled']";
 // page content
 const textBlock = ".notion-text-block";
 const todoBlock = ".notion-to_do-block";
-const todoBlockText = todoBlock + " [placeholder='To-do']";
 const bulletedListBlock = ".notion-bulleted_list-block";
-const bulletedListBlockText = bulletedListBlock + " [placeholder='List']";
 const numberedListBlock = ".notion-numbered_list-block";
-const numberedListBlockText = numberedListBlock + "[placeholder='List']";
 
 const autoDirElementsSelectors = `${topBarNavigation}, ${pageTitle}, ${textBlock}, ${todoBlock}, ${bulletedListBlock}, ${numberedListBlock}`;
 
@@ -48,7 +44,6 @@ function main() {
   // handle content mutations
   const mutationObserver = new MutationObserver((records) => {
     records.forEach((record) => {
-      console.log(records);
       if (record.type === "childList" && record.addedNodes.length) {
         record.addedNodes.forEach((node) => {
           if (node.nodeType !== Node.ELEMENT_NODE) return;
@@ -62,13 +57,52 @@ function main() {
           ) {
             block.setAttribute("dir", "auto");
           }
+
+          // rtl list/todo suggestion
+          let previousSibling = <HTMLElement>record.previousSibling;
+          if (
+            previousSibling &&
+            ((block.matches(todoBlock) && previousSibling.matches(todoBlock)) ||
+              (block.matches(bulletedListBlock) &&
+                previousSibling.matches(bulletedListBlock)) ||
+              (block.matches(numberedListBlock) &&
+                previousSibling.matches(numberedListBlock)))
+          ) {
+            const textBlock = (<HTMLElement>(
+              previousSibling.querySelector(
+                "[placeholder]:not([placeholder='']"
+              )
+            ))!;
+
+            if (startsWithAR(textBlock.innerText)) block.dir = "rtl";
+          }
         });
+      } else if (record.type === "characterData") {
+        const block = <HTMLElement>(
+          (record.target.parentElement?.closest(todoBlock) ??
+            record.target.parentElement?.closest(bulletedListBlock) ??
+            record.target.parentElement?.closest(numberedListBlock))
+        );
+
+        console.log(block);
+        if (
+          record.target.textContent?.trim() &&
+          !startsWithAR(record.target.textContent) &&
+          block?.dir === "rtl"
+        )
+          block.dir = "auto";
       }
     });
   });
 
   mutationObserver.observe(document.querySelector(".notion-page-content")!, {
     childList: true,
+    characterData: true,
     subtree: true,
   });
+}
+
+// utility
+function startsWithAR(string: string) {
+  return /^[\u0621-\u064A]/.test(string);
 }
