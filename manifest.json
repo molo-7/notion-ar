@@ -11,6 +11,9 @@
       ],
       "js": [
         "./dist/main.js"
+      ],
+      "css": [
+        "./src/index.css"
       ]
     }
   ]
