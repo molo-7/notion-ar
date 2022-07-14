@@ -11,8 +11,12 @@ const pageTitle = "[placeholder='Untitled']";
 const textBlock = ".notion-text-block";
 const todoBlock = ".notion-to_do-block";
 const todoBlockText = todoBlock + " [placeholder='To-do']";
+const bulletedListBlock = ".notion-bulleted_list-block";
+const bulletedListBlockText = bulletedListBlock + " [placeholder='List']";
+const numberedListBlock = ".notion-numbered_list-block";
+const numberedListBlockText = numberedListBlock + "[placeholder='List']";
 
-const autoDirElementsSelectors = `${topBarNavigation}, ${pageTitle}, ${textBlock}, ${todoBlock}`;
+const autoDirElementsSelectors = `${topBarNavigation}, ${pageTitle}, ${textBlock}, ${todoBlock}, ${bulletedListBlock}, ${numberedListBlock}`;
 
 /* Activate App */
 let { pathname } = window.location;
