@@ -14,6 +14,8 @@ const numberedListBlock = ".notion-numbered_list-block";
 const headerBlocks =
   ".notion-header-block, .notion-sub_header-block, .notion-sub_sub_header-block";
 const toggleListBlock = ".notion-toggle-block";
+const quoteBlock = ".notion-quote-block";
+const quoteBorderStyle = "3px solid currentcolor";
 
 const autoDirElementsSelectors = `${topBarNavigation}, ${pageTitle}, ${textBlock}, ${todoBlock}, ${bulletedListBlock}, ${numberedListBlock}, ${headerBlocks}, ${toggleListBlock}`;
 
@@ -43,6 +45,19 @@ function main() {
   document
     .querySelectorAll(autoDirElementsSelectors)
     .forEach((ele) => ele.setAttribute("dir", "auto"));
+
+  document.querySelectorAll(quoteBlock).forEach((block) => {
+    block.setAttribute("dir", "ltr");
+    const textBlock = <HTMLElement>(
+      block.querySelector("[placeholder='Empty quote']")
+    );
+
+    if (startsWithAR(textBlock?.innerText)) {
+      block.setAttribute("dir", "rtl");
+      textBlock.parentElement!.style.borderRight = quoteBorderStyle;
+      textBlock.parentElement!.style.borderLeft = "";
+    }
+  });
 
   // handle content mutations
   const mutationObserver = new MutationObserver((records) => {
@@ -93,6 +108,26 @@ function main() {
           block?.dir === "rtl"
         )
           block.dir = "auto";
+
+        const targetQuoteBlock =
+          record.target.parentElement?.closest(quoteBlock);
+        if (targetQuoteBlock) {
+          const block = record.target.parentElement!.parentElement!;
+
+          if (
+            record.target.textContent &&
+            startsWithAR(record.target.textContent)
+          ) {
+            targetQuoteBlock.setAttribute("dir", "rtl");
+            block.style.borderRight = quoteBorderStyle;
+            block.style.borderLeft = "";
+          } else {
+            targetQuoteBlock.setAttribute("dir", "left");
+            block.style.borderLeft = quoteBorderStyle;
+            block.style.borderRight = "";
+          }
+          console.log(record.target.textContent);
+        }
       }
     });
   });
