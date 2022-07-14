@@ -1,5 +1,4 @@
 /* Selectors */
-
 // page loader
 const loadingSpinner = ".loading-spinner";
 
@@ -7,6 +6,11 @@ const loadingSpinner = ".loading-spinner";
 const topBarNavigation =
   ".notion-topbar .notion-focusable .notranslate:not([role='button'])";
 const pageTitle = "[placeholder='Untitled']";
+
+// page content
+const textBlock = ".notion-text-block";
+
+const autoDirElementsSelectors = `${topBarNavigation}, ${pageTitle}, ${textBlock}`;
 
 /* Activate App */
 let { pathname } = window.location;
@@ -31,7 +35,6 @@ function active() {
 
 /* Main */
 function main() {
-  const autoDirElementsSelectors = topBarNavigation + ", " + pageTitle;
   document
     .querySelectorAll(autoDirElementsSelectors)
     .forEach((ele) => ele.setAttribute("dir", "auto"));
