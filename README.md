@@ -10,9 +10,11 @@
 
 - [x] lists and todos rtl suggestions for arabic
 
-- [ ] headings and toggle lists rtl support
+- [x] headings and toggle lists rtl support
 
 - [ ] quotes and callouts rtl support
+
+- [ ] table of contents rtl support
 
 - [ ] ?replace numbered lists characters with arabic characters
 
