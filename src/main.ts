@@ -9,8 +9,10 @@ const pageTitle = "[placeholder='Untitled']";
 
 // page content
 const textBlock = ".notion-text-block";
+const todoBlock = ".notion-to_do-block";
+const todoBlockText = todoBlock + " [placeholder='To-do']";
 
-const autoDirElementsSelectors = `${topBarNavigation}, ${pageTitle}, ${textBlock}`;
+const autoDirElementsSelectors = `${topBarNavigation}, ${pageTitle}, ${textBlock}, ${todoBlock}`;
 
 /* Activate App */
 let { pathname } = window.location;
@@ -39,15 +41,16 @@ function main() {
     .querySelectorAll(autoDirElementsSelectors)
     .forEach((ele) => ele.setAttribute("dir", "auto"));
 
-  // handle newly created blocks
+  // handle content mutations
   const mutationObserver = new MutationObserver((records) => {
     records.forEach((record) => {
-      if (record.addedNodes) {
+      console.log(records);
+      if (record.type === "childList" && record.addedNodes.length) {
         record.addedNodes.forEach((node) => {
           if (node.nodeType !== Node.ELEMENT_NODE) return;
-          const block = node as Element;
+          const block = <HTMLElement>node;
 
-          // auto dir check
+          // new 'auto dir' element
           if (
             autoDirElementsSelectors
               .split(",")
