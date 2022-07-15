@@ -16,7 +16,7 @@
 
 - [x] quotes and callouts rtl support
 
-- [ ] table of contents rtl support
+- [x] table of contents rtl support
 
 - [ ] ?replace numbered lists characters with arabic characters
 

@@ -16,8 +16,9 @@ const headerBlocks =
 const toggleListBlock = ".notion-toggle-block";
 const quoteBlock = ".notion-quote-block";
 const calloutBlock = ".notion-callout-block";
+const tableOfContentsBlock = ".notion-table_of_contents-block";
 
-const autoDirElementsSelectors = `${topBarNavigation}, ${pageTitle}, ${textBlock}, ${todoBlock}, ${bulletedListBlock}, ${numberedListBlock}, ${headerBlocks}, ${toggleListBlock}, ${quoteBlock}, ${calloutBlock}`;
+const autoDirElementsSelectors = `${topBarNavigation}, ${pageTitle}, ${textBlock}, ${todoBlock}, ${bulletedListBlock}, ${numberedListBlock}, ${headerBlocks}, ${toggleListBlock}, ${quoteBlock}, ${calloutBlock}, ${tableOfContentsBlock}`;
 
 /* Activate App */
 let { pathname } = window.location;
@@ -47,12 +48,22 @@ function main() {
 
     // quote border
     if (ele.matches(quoteBlock)) {
-      ele.querySelector(
-        "[placeholder='Empty quote']"
-      )!.parentElement!.style.borderInlineStart = "3px solid currentcolor";
-      ele.querySelector(
-        "[placeholder='Empty quote']"
-      )!.parentElement!.style.borderLeft = "";
+      const block = ele.querySelector("[placeholder='Empty quote']")!;
+
+      block.parentElement!.style.borderInlineStart = "3px solid currentcolor";
+      block.parentElement!.style.borderLeft = "";
+    }
+
+    // table of contents
+    if (ele.matches(tableOfContentsBlock)) {
+      const blocks = <NodeListOf<HTMLElement>>(
+        ele.querySelectorAll("a [role='button'] > div")
+      );
+
+      blocks.forEach((block) => {
+        block.style.marginInlineStart = block.style.marginLeft;
+        block.style.marginLeft = "";
+      });
     }
   });
 
@@ -74,7 +85,7 @@ function main() {
           }
 
           // rtl list/todo suggestion
-          let previousSibling = <HTMLElement>record.previousSibling; // todo | bulleted list | numbered list
+          const previousSibling = <HTMLElement>record.previousSibling; // todo | bulleted list | numbered list
           if (
             previousSibling &&
             ((block.matches(todoBlock) && previousSibling.matches(todoBlock)) ||
@@ -90,6 +101,16 @@ function main() {
             ))!;
 
             if (startsWithAR(textBlock.innerText)) block.dir = "rtl";
+          }
+
+          // table of contents
+          if (block.matches(`${tableOfContentsBlock} div div`)) {
+            const rowBlock = <HTMLElement>(
+              block.querySelector("a [role='button'] > div")
+            );
+
+            rowBlock.style.marginInlineStart = rowBlock.style.marginLeft;
+            rowBlock.style.marginLeft = "";
           }
         });
       } else if (record.type === "characterData") {
