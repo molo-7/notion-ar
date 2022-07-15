@@ -12,7 +12,7 @@
 
 - [x] headings and toggle lists rtl support
 
-- [ ] quotes and callouts rtl support (🚀 50%)
+- [x] quotes and callouts rtl support
 
 - [ ] table of contents rtl support
 
