@@ -20,8 +20,10 @@ const toggleListBlock = ".notion-toggle-block";
 const quoteBlock = ".notion-quote-block";
 const calloutBlock = ".notion-callout-block";
 const tableOfContentsBlock = ".notion-table_of_contents-block";
+const imageBlock = ".notion-image-block";
+const imageBlockCaption = "[placeholder^='Write a caption']";
 
-const autoDirElementsSelectors = `${topBarNavigation}, ${pageTitle}, ${textBlock}, ${todoBlock}, ${bulletedListBlock}, ${numberedListBlock}, ${headerBlocks}, ${toggleListBlock}, ${quoteBlock}, ${calloutBlock}, ${tableOfContentsBlock}`;
+const autoDirElementsSelectors = `${topBarNavigation}, ${pageTitle}, ${textBlock}, ${todoBlock}, ${bulletedListBlock}, ${numberedListBlock}, ${headerBlocks}, ${toggleListBlock}, ${quoteBlock}, ${calloutBlock}, ${tableOfContentsBlock}, ${imageBlock} ${imageBlockCaption}`;
 
 /* Activate App */
 let { pathname } = window.location;
@@ -93,6 +95,13 @@ function main() {
               .some((selector) => block.matches(selector))
           ) {
             block.setAttribute("dir", "auto");
+          }
+
+          // image captions
+          if (block.matches(imageBlock)) {
+            const captionBlock = block.querySelector(imageBlockCaption);
+
+            if (captionBlock) (<HTMLElement>captionBlock).dir = "auto";
           }
 
           // rtl list/todo suggestion

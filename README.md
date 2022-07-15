@@ -18,6 +18,8 @@
 
 - [x] table of contents rtl support
 
+- [x] captions rtl support
+
 - [ ] ?replace numbered lists characters with arabic characters
 
 - [ ] plain text rtl suggestions for arabic
