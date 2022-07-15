@@ -4,6 +4,8 @@
 
 - [x] page info rtl support
 
+- [ ] page icon rtl support
+
 - [x] plain text blocks rtl support
 
 - [x] lists and todos rtl support
