@@ -49,14 +49,6 @@ function main() {
   document.querySelectorAll(autoDirElementsSelectors).forEach((ele) => {
     ele.setAttribute("dir", "auto");
 
-    // quote border
-    if (ele.matches(quoteBlock)) {
-      const block = ele.querySelector("[placeholder='Empty quote']")!;
-
-      block.parentElement!.style.borderInlineStart = "3px solid currentcolor";
-      block.parentElement!.style.borderLeft = "";
-    }
-
     // table of contents
     if (ele.matches(tableOfContentsBlock)) {
       const blocks = <NodeListOf<HTMLElement>>(
