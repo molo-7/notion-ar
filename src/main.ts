@@ -16,8 +16,10 @@ const headerBlocks =
 const toggleListBlock = ".notion-toggle-block";
 const quoteBlock = ".notion-quote-block";
 const quoteBorderStyle = "3px solid currentcolor";
+const calloutBlock = ".notion-callout-block";
+const calloutTextMargin = "8px";
 
-const autoDirElementsSelectors = `${topBarNavigation}, ${pageTitle}, ${textBlock}, ${todoBlock}, ${bulletedListBlock}, ${numberedListBlock}, ${headerBlocks}, ${toggleListBlock}`;
+const autoDirElementsSelectors = `${topBarNavigation}, ${pageTitle}, ${textBlock}, ${todoBlock}, ${bulletedListBlock}, ${numberedListBlock}, ${headerBlocks}, ${toggleListBlock}, ${calloutBlock}`;
 
 /* Activate App */
 let { pathname } = window.location;
@@ -59,6 +61,19 @@ function main() {
     }
   });
 
+  document.querySelectorAll(calloutBlock).forEach((block) => {
+    block.setAttribute("dir", "ltr");
+    const textBlock = <HTMLElement>(
+      block.querySelector("[placeholder='Type something…']")
+    );
+
+    if (startsWithAR(textBlock?.innerText)) {
+      block.setAttribute("dir", "rtl");
+      textBlock.parentElement!.style.marginRight = calloutTextMargin;
+      textBlock.parentElement!.style.marginLeft = "";
+    }
+  });
+
   // handle content mutations
   const mutationObserver = new MutationObserver((records) => {
     records.forEach((record) => {
@@ -96,6 +111,7 @@ function main() {
           }
         });
       } else if (record.type === "characterData") {
+        // ar suggestion
         const block = <HTMLElement>(
           (record.target.parentElement?.closest(todoBlock) ??
             record.target.parentElement?.closest(bulletedListBlock) ??
@@ -109,6 +125,7 @@ function main() {
         )
           block.dir = "auto";
 
+        // quotes
         const targetQuoteBlock =
           record.target.parentElement?.closest(quoteBlock);
         if (targetQuoteBlock) {
@@ -126,7 +143,26 @@ function main() {
             block.style.borderLeft = quoteBorderStyle;
             block.style.borderRight = "";
           }
-          console.log(record.target.textContent);
+        }
+
+        // callouts
+        const targetCalloutBlock =
+          record.target.parentElement?.closest(calloutBlock);
+        if (targetCalloutBlock) {
+          const block = record.target.parentElement!.parentElement!;
+
+          if (
+            record.target.textContent &&
+            startsWithAR(record.target.textContent)
+          ) {
+            targetCalloutBlock.setAttribute("dir", "rtl");
+            block.style.marginRight = calloutTextMargin;
+            block.style.marginLeft = "";
+          } else {
+            targetCalloutBlock.setAttribute("dir", "left");
+            block.style.marginLeft = calloutTextMargin;
+            block.style.marginRight = "";
+          }
         }
       }
     });
