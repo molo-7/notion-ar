@@ -15,11 +15,9 @@ const headerBlocks =
   ".notion-header-block, .notion-sub_header-block, .notion-sub_sub_header-block";
 const toggleListBlock = ".notion-toggle-block";
 const quoteBlock = ".notion-quote-block";
-const quoteBorderStyle = "3px solid currentcolor";
 const calloutBlock = ".notion-callout-block";
-const calloutTextMargin = "8px";
 
-const autoDirElementsSelectors = `${topBarNavigation}, ${pageTitle}, ${textBlock}, ${todoBlock}, ${bulletedListBlock}, ${numberedListBlock}, ${headerBlocks}, ${toggleListBlock}, ${calloutBlock}`;
+const autoDirElementsSelectors = `${topBarNavigation}, ${pageTitle}, ${textBlock}, ${todoBlock}, ${bulletedListBlock}, ${numberedListBlock}, ${headerBlocks}, ${toggleListBlock}, ${quoteBlock}, ${calloutBlock}`;
 
 /* Activate App */
 let { pathname } = window.location;
@@ -44,33 +42,17 @@ function active() {
 
 /* Main */
 function main() {
-  document
-    .querySelectorAll(autoDirElementsSelectors)
-    .forEach((ele) => ele.setAttribute("dir", "auto"));
+  document.querySelectorAll(autoDirElementsSelectors).forEach((ele) => {
+    ele.setAttribute("dir", "auto");
 
-  document.querySelectorAll(quoteBlock).forEach((block) => {
-    block.setAttribute("dir", "ltr");
-    const textBlock = <HTMLElement>(
-      block.querySelector("[placeholder='Empty quote']")
-    );
-
-    if (startsWithAR(textBlock?.innerText)) {
-      block.setAttribute("dir", "rtl");
-      textBlock.parentElement!.style.borderRight = quoteBorderStyle;
-      textBlock.parentElement!.style.borderLeft = "";
-    }
-  });
-
-  document.querySelectorAll(calloutBlock).forEach((block) => {
-    block.setAttribute("dir", "ltr");
-    const textBlock = <HTMLElement>(
-      block.querySelector("[placeholder='Type something…']")
-    );
-
-    if (startsWithAR(textBlock?.innerText)) {
-      block.setAttribute("dir", "rtl");
-      textBlock.parentElement!.style.marginRight = calloutTextMargin;
-      textBlock.parentElement!.style.marginLeft = "";
+    // quote border
+    if (ele.matches(quoteBlock)) {
+      ele.querySelector(
+        "[placeholder='Empty quote']"
+      )!.parentElement!.style.borderInlineStart = "3px solid currentcolor";
+      ele.querySelector(
+        "[placeholder='Empty quote']"
+      )!.parentElement!.style.borderLeft = "";
     }
   });
 
@@ -111,7 +93,7 @@ function main() {
           }
         });
       } else if (record.type === "characterData") {
-        // ar suggestion
+        // reset direction to auto (remove rtl suggestion)
         const block = <HTMLElement>(
           (record.target.parentElement?.closest(todoBlock) ??
             record.target.parentElement?.closest(bulletedListBlock) ??
@@ -124,46 +106,6 @@ function main() {
           block?.dir === "rtl"
         )
           block.dir = "auto";
-
-        // quotes
-        const targetQuoteBlock =
-          record.target.parentElement?.closest(quoteBlock);
-        if (targetQuoteBlock) {
-          const block = record.target.parentElement!.parentElement!;
-
-          if (
-            record.target.textContent &&
-            startsWithAR(record.target.textContent)
-          ) {
-            targetQuoteBlock.setAttribute("dir", "rtl");
-            block.style.borderRight = quoteBorderStyle;
-            block.style.borderLeft = "";
-          } else {
-            targetQuoteBlock.setAttribute("dir", "left");
-            block.style.borderLeft = quoteBorderStyle;
-            block.style.borderRight = "";
-          }
-        }
-
-        // callouts
-        const targetCalloutBlock =
-          record.target.parentElement?.closest(calloutBlock);
-        if (targetCalloutBlock) {
-          const block = record.target.parentElement!.parentElement!;
-
-          if (
-            record.target.textContent &&
-            startsWithAR(record.target.textContent)
-          ) {
-            targetCalloutBlock.setAttribute("dir", "rtl");
-            block.style.marginRight = calloutTextMargin;
-            block.style.marginLeft = "";
-          } else {
-            targetCalloutBlock.setAttribute("dir", "left");
-            block.style.marginLeft = calloutTextMargin;
-            block.style.marginRight = "";
-          }
-        }
       }
     });
   });

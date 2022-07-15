@@ -4,3 +4,11 @@
 .notion-toggle-block [placeholder="Toggle"] {
   text-align: start !important;
 }
+
+.notion-callout-block div {
+  margin: 0 !important;
+}
+
+.notion-callout-block div[placeholder="Type something…"] {
+  margin-inline-start: 8px !important;
+}
