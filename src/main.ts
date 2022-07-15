@@ -5,6 +5,9 @@ const loadingSpinner = ".loading-spinner";
 const topBarNavigation =
   ".notion-topbar .notion-focusable .notranslate:not([role='button'])";
 const pageTitle = "[placeholder='Untitled']";
+const pageBackground = ".whenContentEditable > .pseudoSelection:first-of-type";
+const pageIconAndControlsContainer =
+  ".pseudoSelection:not(.whenContentEditable > *)";
 
 // page content
 const textBlock = ".notion-text-block";
@@ -70,6 +73,22 @@ function main() {
   // handle content mutations
   const mutationObserver = new MutationObserver((records) => {
     records.forEach((record) => {
+      if ((record.target as HTMLElement).tagName === "TITLE") {
+        const text = record.addedNodes[0].textContent ?? "";
+        const pageBackgroundBlock = document.querySelector(pageBackground);
+        const pageIconBlock = document.querySelector(
+          pageIconAndControlsContainer
+        );
+
+        if (startsWithAR(text)) {
+          pageBackgroundBlock?.classList.add("rtl");
+          pageIconBlock?.classList.add("rtl");
+        } else {
+          pageBackgroundBlock?.classList.remove("rtl");
+          pageIconBlock?.classList.remove("rtl");
+        }
+      }
+
       if (record.type === "childList" && record.addedNodes.length) {
         record.addedNodes.forEach((node) => {
           if (node.nodeType !== Node.ELEMENT_NODE) return;
@@ -135,6 +154,10 @@ function main() {
     childList: true,
     characterData: true,
     subtree: true,
+  });
+
+  mutationObserver.observe(document.querySelector("title")!, {
+    childList: true,
   });
 }
 

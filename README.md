@@ -4,7 +4,7 @@
 
 - [x] page info rtl support
 
-- [ ] page icon rtl support
+- [x] page icon and controls rtl support
 
 - [x] plain text blocks rtl support
 
