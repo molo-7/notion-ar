@@ -18,7 +18,14 @@
 
 - [x] table of contents rtl support
 
-- [ ] captions rtl support (✅ images, 📭 videos, 📭 audios, 📭 files, 📭 embeds, 📭 codes)
+- [x] captions rtl support
+
+  - [x] images
+  - [x] videos
+  - [x] audios
+  - [x] files
+  - [x] embeds
+  - [x] bookmarks
 
 - [ ] ?replace numbered lists characters with arabic characters
 

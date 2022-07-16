@@ -21,9 +21,14 @@ const quoteBlock = ".notion-quote-block";
 const calloutBlock = ".notion-callout-block";
 const tableOfContentsBlock = ".notion-table_of_contents-block";
 const imageBlock = ".notion-image-block";
-const imageBlockCaption = "[placeholder^='Write a caption']";
+const videoBlock = ".notion-video-block";
+const audioBlock = ".notion-audio-block";
+const fileBlock = ".notion-file-block";
+const embedBlock = ".notion-embed-block";
+const bookmarkBlock = ".notion-bookmark-block";
+const captionBlockSelector = "[placeholder^='Write a caption']";
 
-const autoDirElementsSelectors = `${topBarNavigation}, ${pageTitle}, ${textBlock}, ${todoBlock}, ${bulletedListBlock}, ${numberedListBlock}, ${headerBlocks}, ${toggleListBlock}, ${quoteBlock}, ${calloutBlock}, ${tableOfContentsBlock}, ${imageBlock} ${imageBlockCaption}`;
+const autoDirElementsSelectors = `${topBarNavigation}, ${pageTitle}, ${textBlock}, ${todoBlock}, ${bulletedListBlock}, ${numberedListBlock}, ${headerBlocks}, ${toggleListBlock}, ${quoteBlock}, ${calloutBlock}, ${tableOfContentsBlock}, ${imageBlock} ${captionBlockSelector}, ${videoBlock} ${captionBlockSelector}, ${audioBlock} ${captionBlockSelector}, ${fileBlock} ${captionBlockSelector}, ${embedBlock} ${captionBlockSelector}, ${bookmarkBlock} ${captionBlockSelector}`;
 
 /* Activate App */
 let { pathname } = window.location;
@@ -97,9 +102,13 @@ function main() {
             block.setAttribute("dir", "auto");
           }
 
-          // image captions
-          if (block.matches(imageBlock)) {
-            const captionBlock = block.querySelector(imageBlockCaption);
+          // captions
+          if (
+            block.matches(
+              `${imageBlock}, ${videoBlock}, ${audioBlock}, ${fileBlock}, ${embedBlock}, ${bookmarkBlock}`
+            )
+          ) {
+            const captionBlock = block.querySelector(captionBlockSelector);
 
             if (captionBlock) (<HTMLElement>captionBlock).dir = "auto";
           }
