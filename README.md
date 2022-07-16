@@ -18,7 +18,7 @@
 
 - [x] table of contents rtl support
 
-- [x] captions rtl support
+- [ ] captions rtl support (✅ images, 📭 videos, 📭 audios, 📭 files, 📭 embeds, 📭 codes)
 
 - [ ] ?replace numbered lists characters with arabic characters
 
