@@ -116,14 +116,13 @@ function main() {
           // rtl suggestion
           const previousSibling = <HTMLElement>record.previousSibling;
           if (
-            (previousSibling &&
-              ((block.matches(todoBlock) &&
-                previousSibling.matches(todoBlock)) ||
-                (block.matches(bulletedListBlock) &&
-                  previousSibling.matches(bulletedListBlock)) ||
-                (block.matches(numberedListBlock) &&
-                  previousSibling.matches(numberedListBlock)))) ||
-            (block.matches(textBlock) && previousSibling.matches(textBlock))
+            previousSibling &&
+            ((block.matches(todoBlock) && previousSibling.matches(todoBlock)) ||
+              (block.matches(bulletedListBlock) &&
+                previousSibling.matches(bulletedListBlock)) ||
+              (block.matches(numberedListBlock) &&
+                previousSibling.matches(numberedListBlock)) ||
+              (block.matches(textBlock) && previousSibling.matches(textBlock)))
           ) {
             const innertextBlock = (<HTMLElement>(
               previousSibling.querySelector(
