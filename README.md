@@ -29,7 +29,7 @@
 
 - [ ] ?replace numbered lists characters with arabic characters
 
-- [ ] plain text rtl suggestions for arabic
+- [x] plain text rtl suggestions for arabic
 
 - [ ] fully support for equations in arabic
 

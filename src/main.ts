@@ -113,23 +113,25 @@ function main() {
             if (captionBlock) (<HTMLElement>captionBlock).dir = "auto";
           }
 
-          // rtl list/todo suggestion
-          const previousSibling = <HTMLElement>record.previousSibling; // todo | bulleted list | numbered list
+          // rtl suggestion
+          const previousSibling = <HTMLElement>record.previousSibling;
           if (
-            previousSibling &&
-            ((block.matches(todoBlock) && previousSibling.matches(todoBlock)) ||
-              (block.matches(bulletedListBlock) &&
-                previousSibling.matches(bulletedListBlock)) ||
-              (block.matches(numberedListBlock) &&
-                previousSibling.matches(numberedListBlock)))
+            (previousSibling &&
+              ((block.matches(todoBlock) &&
+                previousSibling.matches(todoBlock)) ||
+                (block.matches(bulletedListBlock) &&
+                  previousSibling.matches(bulletedListBlock)) ||
+                (block.matches(numberedListBlock) &&
+                  previousSibling.matches(numberedListBlock)))) ||
+            (block.matches(textBlock) && previousSibling.matches(textBlock))
           ) {
-            const textBlock = (<HTMLElement>(
+            const innertextBlock = (<HTMLElement>(
               previousSibling.querySelector(
                 "[placeholder]:not([placeholder='']"
               )
             ))!;
 
-            if (startsWithAR(textBlock.innerText)) block.dir = "rtl";
+            if (startsWithAR(innertextBlock.innerText)) block.dir = "rtl";
           }
 
           // table of contents
@@ -147,7 +149,8 @@ function main() {
         const block = <HTMLElement>(
           (record.target.parentElement?.closest(todoBlock) ??
             record.target.parentElement?.closest(bulletedListBlock) ??
-            record.target.parentElement?.closest(numberedListBlock))
+            record.target.parentElement?.closest(numberedListBlock) ??
+            record.target.parentElement?.closest(textBlock))
         );
 
         if (
