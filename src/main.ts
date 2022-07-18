@@ -27,6 +27,8 @@ const fileBlock = ".notion-file-block";
 const embedBlock = ".notion-embed-block";
 const bookmarkBlock = ".notion-bookmark-block";
 const captionBlockSelector = "[placeholder^='Write a caption']";
+const columnsListBlock = ".notion-column_list-block";
+const columnBlock = ".notion-column-block";
 
 const autoDirElementsSelectors = `${topBarNavigation}, ${pageTitle}, ${textBlock}, ${todoBlock}, ${bulletedListBlock}, ${numberedListBlock}, ${headerBlocks}, ${toggleListBlock}, ${quoteBlock}, ${calloutBlock}, ${tableOfContentsBlock}, ${imageBlock} ${captionBlockSelector}, ${videoBlock} ${captionBlockSelector}, ${audioBlock} ${captionBlockSelector}, ${fileBlock} ${captionBlockSelector}, ${embedBlock} ${captionBlockSelector}, ${bookmarkBlock} ${captionBlockSelector}`;
 
@@ -91,56 +93,66 @@ function main() {
       if (record.type === "childList" && record.addedNodes.length) {
         record.addedNodes.forEach((node) => {
           if (node.nodeType !== Node.ELEMENT_NODE) return;
-          const block = <HTMLElement>node;
 
-          // new 'auto dir' element
-          if (
-            autoDirElementsSelectors
-              .split(",")
-              .some((selector) => block.matches(selector))
-          ) {
-            block.setAttribute("dir", "auto");
-          }
+          let block = <HTMLElement>node;
+          const isColumnsList = block.matches(columnsListBlock);
+          const columnBlocks = block.querySelectorAll(columnBlock);
 
-          // captions
-          if (
-            block.matches(
-              `${imageBlock}, ${videoBlock}, ${audioBlock}, ${fileBlock}, ${embedBlock}, ${bookmarkBlock}`
-            )
-          ) {
-            const captionBlock = block.querySelector(captionBlockSelector);
+          for (let i = 0; i < (isColumnsList ? columnBlocks.length : 1); i++) {
+            if (isColumnsList)
+              block = <HTMLElement>columnBlocks.item(i).firstElementChild;
 
-            if (captionBlock) (<HTMLElement>captionBlock).dir = "auto";
-          }
+            // new 'auto dir' element
+            if (
+              autoDirElementsSelectors
+                .split(",")
+                .some((selector) => block.matches(selector))
+            ) {
+              block.setAttribute("dir", "auto");
+            }
 
-          // rtl suggestion
-          const previousSibling = <HTMLElement>record.previousSibling;
-          if (
-            previousSibling &&
-            ((block.matches(todoBlock) && previousSibling.matches(todoBlock)) ||
-              (block.matches(bulletedListBlock) &&
-                previousSibling.matches(bulletedListBlock)) ||
-              (block.matches(numberedListBlock) &&
-                previousSibling.matches(numberedListBlock)) ||
-              (block.matches(textBlock) && previousSibling.matches(textBlock)))
-          ) {
-            const innertextBlock = (<HTMLElement>(
-              previousSibling.querySelector(
-                "[placeholder]:not([placeholder='']"
+            // captions
+            if (
+              block.matches(
+                `${imageBlock}, ${videoBlock}, ${audioBlock}, ${fileBlock}, ${embedBlock}, ${bookmarkBlock}`
               )
-            ))!;
+            ) {
+              const captionBlock = block.querySelector(captionBlockSelector);
 
-            if (startsWithAR(innertextBlock.innerText)) block.dir = "rtl";
-          }
+              if (captionBlock) (<HTMLElement>captionBlock).dir = "auto";
+            }
 
-          // table of contents
-          if (block.matches(`${tableOfContentsBlock} div div`)) {
-            const rowBlock = <HTMLElement>(
-              block.querySelector("a [role='button'] > div")
-            );
+            // rtl suggestion
+            const previousSibling = <HTMLElement>record.previousSibling;
+            if (
+              previousSibling &&
+              ((block.matches(todoBlock) &&
+                previousSibling.matches(todoBlock)) ||
+                (block.matches(bulletedListBlock) &&
+                  previousSibling.matches(bulletedListBlock)) ||
+                (block.matches(numberedListBlock) &&
+                  previousSibling.matches(numberedListBlock)) ||
+                (block.matches(textBlock) &&
+                  previousSibling.matches(textBlock)))
+            ) {
+              const innertextBlock = (<HTMLElement>(
+                previousSibling.querySelector(
+                  "[placeholder]:not([placeholder='']"
+                )
+              ))!;
 
-            rowBlock.style.marginInlineStart = rowBlock.style.marginLeft;
-            rowBlock.style.marginLeft = "";
+              if (startsWithAR(innertextBlock.innerText)) block.dir = "rtl";
+            }
+
+            // table of contents
+            if (block.matches(`${tableOfContentsBlock} div div`)) {
+              const rowBlock = <HTMLElement>(
+                block.querySelector("a [role='button'] > div")
+              );
+
+              rowBlock.style.marginInlineStart = rowBlock.style.marginLeft;
+              rowBlock.style.marginLeft = "";
+            }
           }
         });
       } else if (record.type === "characterData") {
