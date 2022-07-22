@@ -29,7 +29,7 @@ This extension injects a javascript and css file to the notion website, and enab
 
 # Screen Shot
 
-![capture](./screenshots/capture.png)
+![capture](./screenshots/Capture.PNG)
 
 # Contributing
 
