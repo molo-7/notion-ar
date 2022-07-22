@@ -10,11 +10,11 @@
 
     /* Modules */
     "module": "ESNext",
-    "rootDir": "./src",
+    "rootDir": "./ts",
     "types": ["chrome"],
 
     /* Emit */
-    "outDir": "./dist",
+    "outDir": "./js",
     "removeComments": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,

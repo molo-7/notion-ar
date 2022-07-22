@@ -10,10 +10,10 @@
         "https://*.notion.so/*"
       ],
       "js": [
-        "./dist/main.js"
+        "./js/main.js"
       ],
       "css": [
-        "./src/index.css"
+        "./css/index.css"
       ]
     }
   ]
