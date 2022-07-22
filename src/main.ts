@@ -1,6 +1,3 @@
-// page loader
-const loadingSpinner = ".loading-spinner";
-
 // page info
 const topBarNavigation =
   ".notion-topbar .notion-focusable .notranslate:not([role='button'])";
@@ -10,6 +7,7 @@ const pageIconAndControlsContainer =
   ".pseudoSelection:not(.whenContentEditable > *)";
 
 // page content
+const contentContainer = ".notion-page-content";
 const textBlock = ".notion-text-block";
 const todoBlock = ".notion-to_do-block";
 const bulletedListBlock = ".notion-bulleted_list-block";
@@ -42,10 +40,11 @@ setInterval(() => {
 }, 1000);
 
 function active() {
-  const interval = setInterval(() => {
+  const interval = setInterval(async () => {
     // when page content is loaded
-    if (!document.querySelector(loadingSpinner)) {
+    if (document.querySelector(contentContainer)) {
       clearInterval(interval);
+      await wait(500);
       main();
     }
   }, 1000);
@@ -53,6 +52,11 @@ function active() {
 
 /* Main */
 function main() {
+  if (startsWithAR(document.title)) {
+    document.querySelector(pageBackground)?.classList.add("rtl");
+    document.querySelector(pageIconAndControlsContainer)?.classList.add("rtl");
+  }
+
   document.querySelectorAll(autoDirElementsSelectors).forEach((ele) => {
     ele.setAttribute("dir", "auto");
 
@@ -162,7 +166,7 @@ function main() {
     });
   });
 
-  mutationObserver.observe(document.querySelector(".notion-page-content")!, {
+  mutationObserver.observe(document.querySelector(contentContainer)!, {
     childList: true,
     characterData: true,
     subtree: true,
@@ -176,4 +180,8 @@ function main() {
 // utility
 function startsWithAR(string: string) {
   return /^[\u0621-\u064A]/.test(string);
+}
+
+function wait(time: number) {
+  return new Promise((resolve) => setTimeout(resolve, time));
 }
