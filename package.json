@@ -1,5 +1,22 @@
 {
-  "dependencies": {
+  "name": "notion-ar",
+  "version": "1.0.0",
+  "description": "arabic and rtl direction support for notion.so",
+  "main": "index.js",
+  "devDependencies": {
     "@types/chrome": "^0.0.193"
-  }
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/molo-7/notion-ar.git"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/molo-7/notion-ar/issues"
+  },
+  "homepage": "https://github.com/molo-7/notion-ar#readme"
 }

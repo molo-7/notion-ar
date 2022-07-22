@@ -3,7 +3,13 @@
   "name": "notion-ar",
   "version": "0.1.0",
   "author": "molo-7",
-  "description": "full arabic & rtl support for notion.so",
+  "description": "arabic and rtl direction support for notion.so",
+  "icons": {
+    "16": "./icons/16.png",
+    "48": "./icons/48.png",
+    "128": "./icons/128.png",
+    "256": "./icons/256.png"
+  },
   "content_scripts": [
     {
       "matches": [
