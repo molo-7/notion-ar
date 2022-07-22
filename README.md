@@ -20,7 +20,7 @@ This extension injects a javascript and css file to the notion website, and enab
 
 # Downloads
 
-1. Download [Latest Release](https://github.com/molo-7/notion-ar/releases/latest) `extenstion.zip`.
+1. Download [Latest Release](https://github.com/molo-7/notion-ar/releases/latest) `extension.zip`.
 2. Extract file
 3. Visit `chrome://extensions` (or menu -> Tools -> Extensions).
 4. Enable Developer mode by ticking the checkbox in the upper-right corner.
