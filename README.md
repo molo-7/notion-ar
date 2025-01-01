@@ -20,7 +20,7 @@ This extension injects a javascript and css file to the notion website, and enab
 
 # README.md
 
-- ar العربية
+- ar [العربية](./README_[AR].md)
 
 # Downloads
 
