@@ -18,9 +18,9 @@ Arabic and rtl support for [notion](https://www.notion.so/)
 
 This extension injects a javascript and css file to the notion website, and enables using arabic in notion in the most used components, auto rtl alignment for detected lists/text blocks and more.
 
-# README.md
+# Translations
 
-- ar [العربية](./README_[AR].md)
+- AR [العربية](./README_[AR].md)
 
 # Downloads
 
